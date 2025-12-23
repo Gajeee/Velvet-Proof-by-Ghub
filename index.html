@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Proof — a personal tasting journal</title>
+  <meta name="description" content="A modern, dark, premium, minimalist alcohol tasting journal—favorite drinks, moods, stories, and taste profiles." />
+  <style>
+    :root{
+      --bg: #0b0b0c;
+      --bg2:#0f0f12;
+      --panel:#121218;
+      --panel2:#161622;
+      --text:#f2f2f4;
+      --muted:#a8a8b3;
+      --muted2:#7f7f8c;
+      --gold:#d8b25a;
+      --amber:#e48d3a;
+      --wine:#7f2334;
+      --line:rgba(255,255,255,.08);
+      --glow:rgba(216,178,90,.25);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 22px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --max: 1100px;
+      --grain: 0.07;
+    }
+    html[data-tone="1"]{
+      --bg:#0b0a08;
+      --bg2:#120f0a;
+      --panel:#15110c;
+      --panel2:#1a140d;
+      --gold:#e1c276;
+      --amber:#f09b45;
+      --wine:#8b1f2f;
+      --glow:rgba(240,155,69,.22);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(216,178,90,.10), transparent 60%),
+        radial-gradient(700px 400px at 85% 15%, rgba(127,35,52,.10), transparent 55%),
+        radial-gradient(600px 500px at 40% 85%, rgba(228,141,58,.08), transparent 60%),
+        linear-gradient(180deg, #0a0a0c 0%, #0e0e13 50%, #0b0b0f 100%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      letter-spacing:.2px;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:"";
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(closest-side, transparent 55%, rgba(0,0,0,.75)),
+        repeating-linear-gradient(0deg, rgba(255,255,255,var(--grain)) 0, rgba(255,255,255,var(--grain)) 1px, rgba(0,0,0,var(--grain)) 2px, rgba(0,0,0,var(--grain)) 3px);
+      mix-blend-mode: overlay;
+      opacity:.16;
+      transform: rotate(-2deg);
+      z-index:0;
+    }
+    a{color:inherit; text-decoration:none}
+    button{font:inherit}
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:var(--max);
+      margin:0 auto;
+      padding:28px 18px 60px;
+    }
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 6px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .brand{display:flex; align-items:baseline; gap:10px;}
+    .brand h1{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      letter-spacing:.6px;
+      font-size: 22px;
+      font-weight: 650;
+    }
+    .tag{color:var(--muted); font-size: 12.5px;}
+    .nav{display:flex; gap:16px; color:var(--muted); font-size: 13px;}
+    .nav a{
+      padding:8px 10px;
+      border-radius: 999px;
+      transition: background .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
+    }
+
+    .hero{
+      padding:26px 6px 10px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+    .hero .headline{max-width: 680px;}
+    .hero h2{
+      margin:0 0 10px;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing:.4px;
+      line-height:1.05;
+    }
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size: 14.5px;
+      max-width: 62ch;
+    }
+
+    .pillbar{
+      display:flex; flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      margin-left:auto;
+    }
+    .pill{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      padding:8px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      cursor:pointer;
+      transition: transform .18s var(--ease), background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease);
+      position:relative;
+      overflow:hidden;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      color:var(--text);
+      border-color: rgba(216,178,90,.35);
+      box-shadow: 0 0 18px rgba(216,178,90,.12);
+    }
+    .pill:active{ transform: translateY(0) scale(.98); }
+    .pill[aria-pressed="true"]{
+      color: var(--text);
+      border-color: rgba(216,178,90,.45);
+      background: rgba(216,178,90,.10);
+      box-shadow: 0 0 0 1px rgba(216,178,90,.22) inset, 0 0 24px rgba(216,178,90,.14);
+    }
+
+    .grid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (min-width: 620px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap:18px; }
+    }
+    @media (min-width: 980px){
+      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      overflow:hidden;
+      position:relative;
+      cursor:pointer;
+      transform: translateZ(0);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.35) inset;
+      transition: transform .28s var(--ease), border-color .28s var(--ease), box-shadow .28s var(--ease);
+      min-height: 320px;
+    }
+    .card:hover{
+      transform: translateY(-6px);
+      border-color: rgba(216,178,90,.35);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(216,178,90,.18) inset, 0 0 30px rgba(216,178,90,.10);
+    }
+    .card:active{ transform: translateY(-2px) scale(.99); }
+
+    .card .media{position:absolute; inset:0; overflow:hidden;}
+    .card img{
+      width:100%; height:100%;
+      object-fit:cover;
+      transform: scale(1);
+      transition: transform .9s var(--ease), filter .9s var(--ease);
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .card:hover img{
+      transform: scale(1.07);
+      filter: saturate(1.08) contrast(1.08);
+    }
+
+    .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.78) 70%, rgba(0,0,0,.92));
+      opacity:.65;
+      transition: opacity .4s var(--ease);
+    }
+    .card:hover .overlay{ opacity:.78; }
+
+    .meta{
+      position:absolute; left:0; right:0; bottom:0;
+      padding: 18px 16px 16px;
+      transform: translateY(10px);
+      transition: transform .35s var(--ease);
+    }
+    .card:hover .meta{ transform: translateY(0); }
+
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .type{
+      font-size: 12px;
+      color: rgba(242,242,244,.92);
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.08);
+      padding:6px 9px;
+      border-radius: 999px;
+      display:inline-flex; gap:8px; align-items:center;
+      backdrop-filter: blur(8px);
+    }
+    .badge{
+      font-size: 12px;
+      color: rgba(242,242,244,.92);
+      background: rgba(127,35,52,.22);
+      border: 1px solid rgba(127,35,52,.35);
+      padding:6px 9px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      display:none;
+    }
+    .card[data-featured="1"] .badge{ display:inline-flex; }
+
+    .name{
+      margin: 0 0 6px;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: 18px;
+      letter-spacing:.3px;
+      line-height:1.15;
+    }
+    .mood{
+      margin:0;
+      color: rgba(242,242,244,.78);
+      font-size: 13px;
+      line-height:1.45;
+      max-width: 38ch;
+    }
+
+    .reveal{
+      opacity:0;
+      transform: translateY(12px);
+      transition: opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .reveal.in{opacity:1; transform: translateY(0);}
+
+    footer{
+      margin-top: 30px;
+      padding: 18px 6px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted2);
+      font-size: 12.5px;
+      line-height:1.6;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .foot-left{max-width: 68ch;}
+    .secret{
+      color: var(--muted2);
+      padding:8px 10px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255,255,255,.10);
+      transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+      user-select:none;
+      cursor: default;
+    }
+    .secret:hover{
+      color: rgba(242,242,244,.9);
+      border-color: rgba(216,178,90,.35);
+      background: rgba(216,178,90,.08);
+    }
+    .secret .quote{opacity:.0; transition: opacity .25s var(--ease);}
+    .secret:hover .quote{opacity:1}
+
+    .sheet{
+      position:fixed; inset:0;
+      display:none;
+      z-index: 20;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      overflow:auto;
+    }
+    .sheet.open{ display:block; }
+    .sheet-inner{max-width: 980px; margin: 28px auto; padding: 0 16px 42px;}
+    .detail{
+      border-radius: 26px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+    .detail-hero{
+      height: 320px;
+      position:relative;
+      overflow:hidden;
+      background: #000;
+    }
+    .detail-hero img{
+      width:100%; height:100%;
+      object-fit:cover;
+      transform: scale(1.02);
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .detail-hero:after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.82));
+    }
+    .detail-head{position:absolute; left:0; right:0; bottom:0; padding: 22px 22px 18px;}
+    .detail-head h3{
+      margin:0 0 8px;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing:.3px;
+      line-height:1.08;
+    }
+    .detail-sub{display:flex; flex-wrap:wrap; gap:10px; align-items:center; color: rgba(242,242,244,.86); font-size: 13px;}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+    .detail-body{
+      padding: 18px 22px 22px;
+      display:grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width: 860px){
+      .detail-body{ grid-template-columns: 1.1fr .9fr; }
+    }
+    .section h4{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color: rgba(242,242,244,.86);
+    }
+    .section p{
+      margin:0;
+      color: var(--muted);
+      line-height:1.7;
+      font-size: 14px;
+    }
+
+    .taste{display:grid; gap: 10px; margin-top: 6px;}
+    .taste-row{
+      display:grid;
+      grid-template-columns: 70px 1fr 36px;
+      gap: 10px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .bar{
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      position:relative;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .bar > span{
+      position:absolute; left:0; top:0; bottom:0;
+      width: 50%;
+      background: linear-gradient(90deg, rgba(216,178,90,.85), rgba(228,141,58,.80));
+      border-radius: 999px;
+      box-shadow: 0 0 16px rgba(216,178,90,.22);
+    }
+
+    .rating{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.28);
+    }
+    .stars{
+      letter-spacing: 2px;
+      color: rgba(216,178,90,.95);
+      text-shadow: 0 0 14px rgba(216,178,90,.2);
+      font-size: 16px;
+      white-space:nowrap;
+    }
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      cursor:pointer;
+      transition: transform .18s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn:hover{
+      border-color: rgba(216,178,90,.35);
+      box-shadow: 0 0 26px rgba(216,178,90,.10);
+      background: rgba(216,178,90,.08);
+      transform: translateY(-1px);
+    }
+    .btn:active{transform: translateY(0) scale(.98); }
+    .btn .sub{color: var(--muted); font-size: 12px;}
+
+    .ripple{
+      position:absolute;
+      border-radius:50%;
+      transform: scale(0);
+      animation: ripple .55s var(--ease);
+      background: rgba(216,178,90,.25);
+      pointer-events:none;
+    }
+    @keyframes ripple{
+      to{ transform: scale(10); opacity:0; }
+    }
+
+    .focus:focus-visible{
+      outline: 2px solid rgba(216,178,90,.55);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="top">
+    <header class="top">
+      <div class="brand">
+        <h1>Velvet Proof</h1>
+        <div class="tag">a personal tasting journal</div>
+      </div>
+      <nav class="nav" aria-label="Site">
+        <a class="focus" href="#top">Home</a>
+        <a class="focus" href="#about">About</a>
+                <a class="focus" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="headline reveal">
+        <h2>Nine drinks, nine moods.</h2>
+        <p>
+          This is Gajee’s quiet catalog of favorites—what they taste like, when I reach for them, and the small stories that make them mine.
+          No hype. No sales. Just the glass, the moment, and the memory.
+        </p>
+      </div>
+
+      <div class="pillbar" aria-label="Mood filters">
+        <button class="pill focus" data-filter="all" aria-pressed="true">All</button>
+        <button class="pill focus" data-filter="late-night" aria-pressed="false">Late Night</button>
+        <button class="pill focus" data-filter="celebration" aria-pressed="false">Celebration</button>
+        <button class="pill focus" data-filter="chill" aria-pressed="false">Chill Alone</button>
+        <button class="pill focus" data-filter="party" aria-pressed="false">Party</button>
+        <button class="pill focus" data-filter="rainy" aria-pressed="false">Rainy Night</button>
+      </div>
+    </section>
+
+    <main>
+      <section aria-label="Drinks gallery">
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <section id="about" class="reveal" style="margin-top:26px; padding:18px 6px 0; border-top:1px solid var(--line);">
+        <h3 style="margin:0 0 10px; font-family:ui-serif,Georgia,'Times New Roman',Times,serif; font-size:22px; letter-spacing:.3px;">About</h3>
+        <p style="margin:0; color:var(--muted); line-height:1.7; font-size:14px; max-width:72ch;">
+          I keep this journal for the same reason some people keep playlists: to remember how certain nights felt.
+          I’m not chasing rare bottles or perfect technique—just flavors that land, and the moods they fit.
+        </p>
+      </section>
+
+<section id="contact" class="reveal" style="margin-top:22px; padding:18px 6px 0; border-top:1px solid var(--line);">
+        <h3 style="margin:0 0 10px; font-family:ui-serif,Georgia,'Times New Roman',Times,serif; font-size:22px; letter-spacing:.3px;">Contact</h3>
+        <p style="margin:0; color:var(--muted); line-height:1.7; font-size:14px; max-width:72ch;">
+          Connect with me here:
+        </p>
+        <div class="actions" style="margin-top:12px;">
+          <a class="btn focus" href="https://instagram.com/gajeness" target="_blank" rel="noopener">
+            Instagram <span class="sub">gajeness</span>
+          </a>
+          <a class="btn focus" href="mailto:gajenes10@gmail.com">
+            Email <span class="sub">gajenes10@gmail.com</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="foot-left">
+        <div><strong style="color:rgba(242,242,244,.9)">Disclaimer:</strong> Personal opinions only. For legal drinking age only. This is a personal tasting journal, not a sales platform.</div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; justify-content:flex-end; flex-wrap:wrap;">
+  <div class="secret" title="A tiny easter egg.">Footer secret: <span class="quote">“Even the quietest drink can be a loud memory.”</span></div>
+  <div class="type" style="font-size:11px; padding:6px 10px; opacity:.9;">Ghub</div>
+</div>
+    </footer>
+  </div>
+
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Drink details">
+    <div class="sheet-inner">
+      <div class="detail" id="detail"></div>
+      <div style="display:flex; justify-content:center; margin-top:14px;">
+        <button class="btn focus" id="closeSheet" type="button" aria-label="Close details">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const drinks = [
+      { id:"midnight-old-fashioned", name:"Midnight Old Fashioned", type:"Cocktail", abv:"32% (approx.)",
+        moodLine:"Smooth, late‑night slow sips.", mood:"late-night",
+        when:"Late nights when the room is quiet and the playlist is low.",
+        taste:{sweet:3, bitter:2, smoky:1, strong:4}, rating:5,
+        story:"I like how it starts warm and ends clean—like a closing scene. Orange oils, a small cube, and time.",
+        featured:true, img: "images/midnight-old-fashioned.jpg"
+      },
+      { id:"rain-on-the-patio", name:"Rain on the Patio", type:"Gin Highball", abv:"10% (approx.)",
+        moodLine:"Bright, crisp—good for rainy nights.", mood:"rainy",
+        when:"When it’s raining and you don’t want anything heavy.",
+        taste:{sweet:2, bitter:1, smoky:0, strong:2}, rating:4,
+        story:"Juniper and citrus feel like clean air through a cracked window. The ice does most of the work.",
+        img: "images/rain-on-the-patio.jpg"
+      },
+      { id:"amber-neat", name:"Amber Neat", type:"Whiskey", abv:"45%",
+        moodLine:"Dry warmth for thinking in peace.", mood:"chill",
+        when:"Solo nights: reading, journaling, or editing photos.",
+        taste:{sweet:2, bitter:1, smoky:3, strong:4}, rating:5,
+        story:"This is the “one glass only” pour. I like the way the smoke arrives late, after the first swallow.",
+        img: "images/amber-neat.jpg"
+      },
+      { id:"celebration-champagne", name:"Gold Noise", type:"Champagne", abv:"12%",
+        moodLine:"Celebration, without shouting.", mood:"celebration",
+        when:"Big wins, small wins—anything worth a clean toast.",
+        taste:{sweet:1, bitter:1, smoky:0, strong:1}, rating:4,
+        story:"Bubbles are mood‑editing. One sip and the night feels slightly more cinematic.",
+        img: "images/gold-noise.jpg"
+      },
+      { id:"spiced-rum-cola", name:"Backseat Rum & Cola", type:"Rum", abv:"14% (approx.)",
+        moodLine:"Easy, nostalgic, low‑effort comfort.", mood:"party",
+        when:"House parties where you don’t want to overthink it.",
+        taste:{sweet:4, bitter:0, smoky:1, strong:2}, rating:3,
+        story:"It’s not fancy—just familiar. Tastes like laughter in a kitchen at 1 a.m.",
+        img: "images/backseat-rum-cola.jpg"
+      },
+      { id:"espresso-martini", name:"Velvet Espresso", type:"Cocktail", abv:"20% (approx.)",
+        moodLine:"Dessert energy for late‑night talk.", mood:"late-night",
+        when:"After dinner when the night still has plans.",
+        taste:{sweet:3, bitter:2, smoky:0, strong:3}, rating:4,
+        story:"Coffee, but dressed up. The foam feels like a soft reset button.",
+        img: "images/velvet-espresso.jpg"
+      },
+      { id:"mezcal-sunset", name:"Smoke & Citrus", type:"Mezcal", abv:"42%",
+        moodLine:"Smoky edges—perfect for slow sunsets.", mood:"chill",
+        when:"Chill evenings with good conversation and no rush.",
+        taste:{sweet:1, bitter:1, smoky:5, strong:4}, rating:5,
+        story:"Mezcal tastes like a place. One sip and it feels like a campfire somewhere far away.",
+        img: "images/smoke-and-citrus.jpg"
+      },
+      { id:"negroni", name:"Deep Red Negroni", type:"Cocktail", abv:"24% (approx.)",
+        moodLine:"Bitter, confident, and perfectly balanced.", mood:"party",
+        when:"Pre‑dinner or rooftop nights with city lights.",
+        taste:{sweet:1, bitter:4, smoky:0, strong:3}, rating:4,
+        story:"When I want something honest—no hiding, just a clean bite and a long finish.",
+        img: "images/deep-red-negroni.jpg"
+      },
+      { id:"hot-toddy", name:"Quiet Honey Toddy", type:"Hot Cocktail", abv:"12% (approx.)",
+        moodLine:"Soft warmth for cold, rainy nights.", mood:"rainy",
+        when:"When the weather is bad and you want gentleness.",
+        taste:{sweet:3, bitter:0, smoky:1, strong:2}, rating:4,
+        story:"It’s the drink version of a blanket. Steam, honey, lemon—nothing loud, everything kind.",
+        img: "images/quiet-honey-toddy.jpg"
+      }
+    ];
+
+    const icons = {
+      Cocktail:"🍸", Whiskey:"🥃", "Gin Highball":"🫧",
+      Champagne:"🥂", Rum:"🏝️", Mezcal:"🔥", "Hot Cocktail":"☕"
+    };
+
+    const grid = document.getElementById("grid");
+    const sheet = document.getElementById("sheet");
+    const detail = document.getElementById("detail");
+    const closeSheet = document.getElementById("closeSheet");
+
+    const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+    const stars = n => "★".repeat(clamp(n,0,5)) + "☆".repeat(clamp(5-n,0,5));
+    const pct = v => (clamp(v,0,5) * 20) + "%";
+
+    function prettyMood(m){
+      return ({
+        "late-night":"Late Night",
+        "celebration":"Celebration",
+        "chill":"Chill Alone",
+        "party":"Party",
+        "rainy":"Rainy Night"
+      })[m] ?? m;
+    }
+
+    function cardTemplate(d){
+      return `
+      <article class="card reveal focus" tabindex="0" role="button"
+        data-id="${d.id}" data-mood="${d.mood}" data-featured="${d.featured?1:0}"
+        aria-label="Open ${d.name}">
+        <div class="media">
+          <img loading="lazy" alt="${d.name} in moody low light setting" src="${d.img}"/>
+          <div class="overlay"></div>
+        </div>
+        <div class="meta">
+          <div class="row">
+            <span class="type">${icons[d.type] ?? "✨"} ${d.type}</span>
+            <span class="badge">Editor’s pick</span>
+          </div>
+          <h3 class="name">${d.name}</h3>
+          <p class="mood">${d.moodLine}</p>
+        </div>
+      </article>`;
+    }
+
+    function renderGrid(items){
+      grid.innerHTML = items.map(cardTemplate).join("");
+      bindCards();
+      setupReveal();
+    }
+
+    function bindCards(){
+      grid.querySelectorAll(".card").forEach(card=>{
+        const open = ()=>openDrink(card.dataset.id);
+        card.addEventListener("click", open);
+        card.addEventListener("keydown", (e)=>{
+          if(e.key==="Enter" || e.key===" "){ e.preventDefault(); open(); }
+        });
+      });
+    }
+
+    function detailTemplate(d){
+      const tasteRows = ["sweet","bitter","smoky","strong"].map(k=>{
+        const label = k[0].toUpperCase()+k.slice(1);
+        const v = clamp(d.taste[k] ?? 0, 0, 5);
+        return `
+          <div class="taste-row">
+            <div>${label}</div>
+            <div class="bar" aria-label="${label} ${v} out of 5"><span style="width:${pct(v)}"></span></div>
+            <div style="text-align:right; color:rgba(242,242,244,.78)">${v}/5</div>
+          </div>`;
+      }).join("");
+
+      return `
+        <div class="detail-hero">
+          <img alt="${d.name} hero image" src="${d.img}">
+          <div class="detail-head">
+            <h3>${d.name}</h3>
+            <div class="detail-sub">
+              <span class="chip">${icons[d.type] ?? "✨"} ${d.type}</span>
+              <span class="chip">ABV: ${d.abv}</span>
+              <span class="chip">Mood: ${prettyMood(d.mood)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="section">
+            <h4>Story</h4>
+            <p>${d.story}</p>
+            <div class="actions">
+              <button class="btn focus" type="button" data-action="back">← Back to gallery <span class="sub">(Esc)</span></button>
+              <button class="btn focus" type="button" data-action="copy">Copy tasting note <span class="sub">(text)</span></button>
+            </div>
+          </div>
+          <div class="section">
+            <h4>Taste profile</h4>
+            <div class="taste">${tasteRows}</div>
+            <div style="margin-top:14px;">
+              <div class="rating">
+                <div>
+                  <div style="font-size:12px; color:var(--muted2); text-transform:uppercase; letter-spacing:.9px;">Personal rating</div>
+                  <div class="stars" aria-label="${d.rating} out of 5 stars">${stars(d.rating)}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:12px; color:var(--muted2); text-transform:uppercase; letter-spacing:.9px;">When I drink it</div>
+                  <div style="font-size:13px; color:rgba(242,242,244,.86); max-width:26ch; line-height:1.35;">${d.when}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function openDrink(id){
+      const d = drinks.find(x=>x.id===id);
+      if(!d) return;
+      detail.innerHTML = detailTemplate(d);
+      sheet.classList.add("open");
+      document.body.style.overflow="hidden";
+      window.location.hash = "#drink/" + id;
+      bindDetailActions(d);
+    }
+
+    function closeDrink(){
+      sheet.classList.remove("open");
+      document.body.style.overflow="";
+      if(window.location.hash.startsWith("#drink/")){
+        history.replaceState(null,"", "#top");
+      }
+    }
+
+    function bindDetailActions(d){
+      detail.querySelectorAll("[data-action]").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+          ripple(e);
+          const act = btn.dataset.action;
+          if(act==="back"){ closeDrink(); }
+          if(act==="copy"){
+            const text =
+`${d.name} — ${d.type} (ABV ${d.abv})
+Mood: ${prettyMood(d.mood)}
+Taste: Sweet ${d.taste.sweet}/5, Bitter ${d.taste.bitter}/5, Smoky ${d.taste.smoky}/5, Strong ${d.taste.strong}/5
+When: ${d.when}
+Rating: ${d.rating}/5
+Story: ${d.story}`;
+            navigator.clipboard?.writeText(text).catch(()=>{});
+          }
+        });
+      });
+    }
+
+    // Filter pills
+    const pills = document.querySelectorAll(".pill");
+    let active = "all";
+    pills.forEach(p=>{
+      p.addEventListener("click",(e)=>{
+        ripple(e);
+        const next = p.dataset.filter;
+        active = next;
+        pills.forEach(x=>x.setAttribute("aria-pressed", x.dataset.filter===next ? "true":"false"));
+        applyFilter();
+      });
+    });
+
+    function applyFilter(){
+      const items = active==="all" ? [...drinks] : drinks.filter(d=>d.mood===active);
+      items.sort((a,b)=> (b.featured?1:0) - (a.featured?1:0));
+      renderGrid(items);
+    }
+
+    // Scroll reveal
+    let obs = null;
+    function setupReveal(){
+      obs?.disconnect?.();
+      obs = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting){
+            en.target.classList.add("in");
+            obs.unobserve(en.target);
+          }
+        });
+      }, {threshold: 0.12});
+      document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+    }
+
+    // Smooth scrolling for internal anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener("click",(e)=>{
+        const href = a.getAttribute("href");
+        if(href.startsWith("#drink/")) return;
+        const target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:"smooth", block:"start"});
+        }
+      });
+    });
+
+    // Ripple micro-interaction
+    function ripple(e){
+      const el = e.currentTarget;
+      const rect = el.getBoundingClientRect();
+      const r = document.createElement("span");
+      r.className="ripple";
+      const size = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = size + "px";
+      r.style.left = (e.clientX - rect.left - size/2) + "px";
+      r.style.top  = (e.clientY - rect.top  - size/2) + "px";
+      el.appendChild(r);
+      r.addEventListener("animationend", ()=>r.remove());
+    }
+
+    // Close actions
+    closeSheet.addEventListener("click",(e)=>{ ripple(e); closeDrink(); });
+    sheet.addEventListener("click",(e)=>{ if(e.target===sheet) closeDrink(); });
+    window.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeDrink(); });
+
+    // Hash routing (open a drink directly)
+    function route(){
+      const h = window.location.hash || "#top";
+      if(h.startsWith("#drink/")){
+        const id = h.replace("#drink/","");
+        openDrink(id);
+      }
+    }
+    window.addEventListener("hashchange", route);
+
+    // Easter egg: double click background toggles tone
+    document.addEventListener("dblclick", ()=>{
+      if(sheet.classList.contains("open")) return;
+      const current = document.documentElement.getAttribute("data-tone") === "1" ? "1":"0";
+      document.documentElement.setAttribute("data-tone", current==="1" ? "0":"1");
+    });
+
+    // Init
+    applyFilter();
+    setupReveal();
+    route();
+  </script>
+</body>
+</html>
