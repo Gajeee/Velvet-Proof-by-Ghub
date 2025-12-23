@@ -3,61 +3,73 @@
 <!-- ===================================================== -->
 
 <p align="center">
-  <img src="images/sip.gif" alt="Ambient sipping loop" width="520"/>
+  <img src="images/sip.gif" width="520" alt="Ambient sipping animation"/>
 </p>
 
 <h1 align="center">Velvet Proof</h1>
 
 <p align="center">
-  <strong>A personal tasting journal by Gajee.</strong><br/>
-  Dark, premium, minimal — a quiet catalog of drinks, moods, and memories.
+  <strong>A personal drinking journal by Gajee.</strong><br/>
+  Dark, minimal, and intentional — documenting drinks, moods, and moments.
 </p>
 
 <p align="center">
-  <a href="https://instagram.com/gajeness" target="_blank" rel="noopener">
-    <img src="https://img.shields.io/badge/Instagram-gajeness-7f2334?style=for-the-badge&logo=instagram&logoColor=ffffff" />
+  <a href="https://instagram.com/gajeness" target="_blank">
+    <img src="https://img.shields.io/badge/Instagram-gajeness-7f2334?style=for-the-badge&logo=instagram&logoColor=ffffff"/>
   </a>
   <a href="mailto:gajenes10@gmail.com">
-    <img src="https://img.shields.io/badge/Email-gajenes10%40gmail.com-d8b25a?style=for-the-badge&logo=gmail&logoColor=0b0b0c" />
+    <img src="https://img.shields.io/badge/Email-gajenes10%40gmail.com-d8b25a?style=for-the-badge&logo=gmail&logoColor=0b0b0c"/>
   </a>
-  <img src="https://img.shields.io/badge/Status-Live-e48d3a?style=for-the-badge&logo=vercel&logoColor=ffffff" />
 </p>
 
 <br/>
 
-<p align="center">
-  <img src="images/uishot1.png" alt="UI Shot 1" width="420"/>
-  &nbsp;&nbsp;
-  <img src="images/uishot2.png" alt="UI Shot 2" width="420"/>
-</p>
+<!-- ================= UI SHOTS ================= -->
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/uishot1.png" width="420" alt="Velvet Proof UI – Gallery"/>
+    </td>
+    <td align="center">
+      <img src="images/uishot2.png" width="420" alt="Velvet Proof UI – Drink Page"/>
+    </td>
+  </tr>
+</table>
 
 ---
 
 ## What This Is
 
-**Velvet Proof** is a personal drinking journal — not a review site, not a sales page, not a recommendation engine.
+**Velvet Proof** is not a review site and not a recommendation engine.  
+It’s a **personal tasting journal**.
 
-It’s built to capture:
-- the drink  
-- the mood it fits  
-- the taste profile  
-- the moment behind it  
+Each drink exists here because it fits a moment:
+- a late night  
+- a quiet evening  
+- a celebration  
+- a rainy mood  
 
-A small archive of nights worth remembering.
-
----
-
-## Experience
-
-- Dark, editorial UI inspired by lounges and late-night bars  
-- Premium hover interactions (soft glow, overlay, lift)  
-- Mood-based filtering (vibe-first, not category-first)  
-- Individual drink pages with story + taste + rating  
-- Responsive layout (mobile → desktop)
+Nothing is ranked for others. Everything is remembered for myself.
 
 ---
 
-## Tech
+## Experience & Design
+
+- Dark, lounge-inspired interface  
+- Subtle motion and soft hover states  
+- Mood-based filtering instead of categories  
+- Individual drink pages with:
+  - taste profile
+  - when it fits
+  - personal notes  
+- Clean typography and warm accent colors  
+
+Built to feel like a dim room — not a feed.
+
+---
+
+## Tech Stack
 
 <p>
   <img src="https://img.shields.io/badge/HTML5-0b0b0c?style=flat-square&logo=html5&logoColor=d8b25a"/>
@@ -65,18 +77,37 @@ A small archive of nights worth remembering.
   <img src="https://img.shields.io/badge/JavaScript-0b0b0c?style=flat-square&logo=javascript&logoColor=ffffff"/>
 </p>
 
-No frameworks. No dependencies.  
-Just clean front-end, intentionally minimal.
+No frameworks.  
+No dependencies.  
+Just intentional front-end code.
 
 ---
 
-## Setup
+## File Structure
 
-Clone and open locally:
 
-```bash
-# Option 1: open the HTML directly
-open index.html
+Images are local for full control and performance.
 
-# Option 2 (recommended): run a tiny local server
-python -m http.server 8080
+---
+
+## Disclaimer
+
+This project is personal.
+
+- Personal opinions only  
+- Intended for legal drinking age  
+- No promotion or encouragement  
+- Not a sales platform  
+
+---
+
+<p align="center">
+  <sub>
+    © Gajee · <strong>Ghub</strong><br/>
+    Built slow. Kept quiet.
+  </sub>
+</p>
+
+<!-- ===================================================== -->
+<!--                         END                           -->
+<!-- ===================================================== -->
