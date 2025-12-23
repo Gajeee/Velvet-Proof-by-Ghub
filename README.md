@@ -1,115 +1,82 @@
-<!-- ========================= -->
-<!--        VELVET PROOF       -->
-<!-- ========================= -->
+<!-- ===================================================== -->
+<!--                     VELVET PROOF                      -->
+<!-- ===================================================== -->
 
 <p align="center">
-  <img src="images/uishot1.png" alt="Velvet Proof UI Shot" width="900"/>
+  <img src="images/sip.gif" alt="Ambient sipping loop" width="520"/>
 </p>
 
 <h1 align="center">Velvet Proof</h1>
 
 <p align="center">
-  <strong>A personal drinking journal.</strong><br/>
-  Moods, memories, and quiet nights — documented one glass at a time.
+  <strong>A personal tasting journal by Gajee.</strong><br/>
+  Dark, premium, minimal — a quiet catalog of drinks, moods, and memories.
 </p>
 
 <p align="center">
-  <a href="https://instagram.com/gajeness" target="_blank">
-    <img src="https://img.shields.io/badge/Instagram-gajeness-1a1a1a?style=for-the-badge&logo=instagram&logoColor=white"/>
+  <a href="https://instagram.com/gajeness" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/badge/Instagram-gajeness-7f2334?style=for-the-badge&logo=instagram&logoColor=ffffff" />
   </a>
   <a href="mailto:gajenes10@gmail.com">
-    <img src="https://img.shields.io/badge/Email-gajenes10@gmail.com-1a1a1a?style=for-the-badge&logo=gmail&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Email-gajenes10%40gmail.com-d8b25a?style=for-the-badge&logo=gmail&logoColor=0b0b0c" />
   </a>
+  <img src="https://img.shields.io/badge/Status-Live-e48d3a?style=for-the-badge&logo=vercel&logoColor=ffffff" />
 </p>
 
----
-
-## About
-
-**Velvet Proof** is a minimalist, dark-themed personal alcohol blog built as a **tasting journal**, not a review site.
-
-It captures:
-- What a drink tastes like  
-- When it feels right to drink it  
-- The mood, memory, or moment tied to it  
-
-There are no rankings, no promotions, and no recommendations — just personal notes, quietly archived.
-
-> _This project is intentionally slow, personal, and editorial._
-
----
-
-## Design Philosophy
-
-- Dark, premium, bar-inspired UI  
-- Minimal color palette (charcoal, amber, deep red)  
-- Smooth hover states and subtle motion  
-- Mood-based navigation instead of categories  
-
-Every design choice is meant to feel like:
-> sitting in a dim bar, after midnight, with nothing to rush.
-
----
+<br/>
 
 <p align="center">
-  <img src="images/uishot2.png" alt="Velvet Proof UI Shot" width="900"/>
+  <img src="images/uishot1.png" alt="UI Shot 1" width="420"/>
+  &nbsp;&nbsp;
+  <img src="images/uishot2.png" alt="UI Shot 2" width="420"/>
 </p>
 
 ---
 
-## Features
+## What This Is
 
-- Responsive 3×3 drinks gallery  
-- Mood-based filtering (Late Night, Chill, Celebration, Rainy Night)  
-- Individual drink pages with:
-  - Taste profile
-  - Personal story
-  - When the drink fits best
-- Clean, distraction-free layout  
-- JPEG-based image system for easy updates  
+**Velvet Proof** is a personal drinking journal — not a review site, not a sales page, not a recommendation engine.
+
+It’s built to capture:
+- the drink  
+- the mood it fits  
+- the taste profile  
+- the moment behind it  
+
+A small archive of nights worth remembering.
 
 ---
 
-## Tech Stack
+## Experience
+
+- Dark, editorial UI inspired by lounges and late-night bars  
+- Premium hover interactions (soft glow, overlay, lift)  
+- Mood-based filtering (vibe-first, not category-first)  
+- Individual drink pages with story + taste + rating  
+- Responsive layout (mobile → desktop)
+
+---
+
+## Tech
 
 <p>
-  <img src="https://img.shields.io/badge/HTML5-1a1a1a?style=flat-square&logo=html5&logoColor=white"/>
-  <img src="https://img.shields.io/badge/CSS3-1a1a1a?style=flat-square&logo=css3&logoColor=white"/>
-  <img src="https://img.shields.io/badge/JavaScript-1a1a1a?style=flat-square&logo=javascript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/HTML5-0b0b0c?style=flat-square&logo=html5&logoColor=d8b25a"/>
+  <img src="https://img.shields.io/badge/CSS3-0b0b0c?style=flat-square&logo=css3&logoColor=e48d3a"/>
+  <img src="https://img.shields.io/badge/JavaScript-0b0b0c?style=flat-square&logo=javascript&logoColor=ffffff"/>
 </p>
 
-No frameworks.  
-No dependencies.  
-Just clean, intentional front-end code.
+No frameworks. No dependencies.  
+Just clean front-end, intentionally minimal.
 
 ---
 
-## Image Management
+## Setup
 
-All drink images are stored locally for full control.
+Clone and open locally:
 
+```bash
+# Option 1: open the HTML directly
+open index.html
 
-Images are referenced directly inside the data layer for simplicity and performance.
-
----
-
-## Disclaimer
-
-This is a **personal project** and not a sales platform.
-
-- Personal opinions only  
-- Intended for legal drinking age  
-- No promotion or encouragement  
-
----
-
-<p align="center">
-  <sub>
-    Built & curated by <strong>Gajee</strong><br/>
-    <em>Ghub</em>
-  </sub>
-</p>
-
-<!-- ========================= -->
-<!--          END              -->
-<!-- ========================= -->
+# Option 2 (recommended): run a tiny local server
+python -m http.server 8080
